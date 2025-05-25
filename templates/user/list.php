@@ -1,7 +1,16 @@
-<a href="/user/create" class="btn btn-primary" style="margin-bottom: 1em;">Create User</a>
+<nav>
+    <ul>
+        <li>
+            <h2>Users</h2>
+        </li>
+    </ul>
+    <ul>
+        <li><a href="/user/create" role="button">Create User</a></li>
+    </ul>
+</nav>
 <?php
 foreach ($users as $user) {
-    Flight::render('user/card.php', [
+    render_view('user.card', [
         'user' => $user,
     ]);
 }

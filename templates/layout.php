@@ -23,7 +23,7 @@
                 <!--<li><strong><a href="/" class="contrast"><?= config('app.name') ?></a></strong></li>-->
             </ul>
 
-            <?php include_once __DIR__ . '/nav/main.php'; ?>
+            <?php render_view('nav.main'); ?>
 
             <ul>
                 <li><a href="#" class="secondary" id="toggle-color-scheme" aria-label="Toggle Color Scheme">☀️</a></li>
@@ -36,7 +36,7 @@
             <?php echo $content ?? ''; ?>
         </main>
     <?php else : ?>
-        <?php include_once __DIR__ . '/404.php'; ?>
+        <?php render_view('404'); ?>
     <?php endif; ?>
 
     <footer>
