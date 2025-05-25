@@ -17,9 +17,9 @@ class AuthController extends Controller
         if ($username && $password) {
             $users = User::all();
             foreach ($users as $user) {
-                if ($user['username'] === $username && password_verify($password, $user['password'])) {
-                    \Flight::session()->set('user_id', $user['id']);
-                    \Flight::session()->set('username', $user['username']);
+                if ($user->username === $username && password_verify($password, $user->password)) {
+                    \Flight::session()->set('user_id', $user->id);
+                    \Flight::session()->set('username', $user->username);
                     \Flight::redirect('/');
                     return;
                 }

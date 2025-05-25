@@ -36,6 +36,8 @@ class UserController extends Controller
         $birthday = $_POST['birthday'] ?? '';
         $multiplier = floatval($_POST['multiplier'] ?? 1);
         $current_funds = floatval($_POST['current_funds'] ?? 0);
+        $goal = floatval($_POST['goal'] ?? 100);
+
         if ($username && $password && $name) {
             User::add([
                 'username' => $username,
@@ -43,13 +45,14 @@ class UserController extends Controller
                 'name' => $name,
                 'birthday' => $birthday,
                 'multiplier' => $multiplier,
-                'current_funds' => $current_funds
+                'current_funds' => $current_funds,
+                'goal' => $goal
             ]);
             \Flight::redirect('/users');
         } else {
             self::render('user.edit', [
-                'user' => null,
-                'message' => 'Username, password, and name are required.'
+                'user' => new User($_POST),
+                'error' => 'Username, password, and name are required.'
             ]);
         }
     }
@@ -60,6 +63,9 @@ class UserController extends Controller
      */
     public static function editForm($id) {
         $user = User::get($id);
+        if (!$user) {
+            \Flight::redirect('/users');
+        }
         self::render('user.edit', ['user' => $user]);
     }
 
@@ -74,23 +80,27 @@ class UserController extends Controller
         $birthday = $_POST['birthday'] ?? '';
         $multiplier = floatval($_POST['multiplier'] ?? 1);
         $current_funds = floatval($_POST['current_funds'] ?? 0);
-        $updateData = [
-            'username' => $username,
-            'name' => $name,
-            'birthday' => $birthday,
-            'multiplier' => $multiplier,
-            'current_funds' => $current_funds
-        ];
-        if (!empty($password)) {
-            $updateData['password'] = password_hash($password, PASSWORD_DEFAULT);
-        }
+        $goal = floatval($_POST['goal'] ?? 100);
+
         if ($username && $name) {
+            $updateData = [
+                'username' => $username,
+                'name' => $name,
+                'birthday' => $birthday,
+                'multiplier' => $multiplier,
+                'current_funds' => $current_funds,
+                'goal' => $goal
+            ];
+            if (!empty($password)) {
+                $updateData['password'] = password_hash($password, PASSWORD_DEFAULT);
+            }
             User::update($id, $updateData);
             \Flight::redirect('/users');
         } else {
+            $data = array_merge(['id' => $id], $_POST);
             self::render('user.edit', [
-                'user' => array_merge(User::get($id) ?? [], $_POST),
-                'message' => 'Username and name are required.'
+                'user' => new User($data),
+                'error' => 'Username and name are required.'
             ]);
         }
     }
@@ -110,6 +120,9 @@ class UserController extends Controller
      */
     public static function view($id) {
         $user = User::get($id);
+        if (!$user) {
+            \Flight::redirect('/users');
+        }
         self::render('user.detail', ['user' => $user]);
     }
 }

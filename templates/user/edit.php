@@ -30,6 +30,10 @@
             <label for="multiplier">Multiplier</label>
             <input type="number" id="multiplier" name="multiplier" step="0.01" value="<?= htmlspecialchars($user->multiplier ?? '1') ?>">
         </div>
+        <div>
+            <label for="goal">Grade Goal</label>
+            <input type="number" id="goal" name="goal" min="1" value="<?= htmlspecialchars($user->goal ?? '10') ?>">
+        </div>
         <button type="submit" class="primary">Save</button>
         <a href="/users" class="secondary">Cancel</a>
         <?php if (!empty($user)): ?>

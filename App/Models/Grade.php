@@ -17,4 +17,16 @@ class Grade extends Model {
      * @var class-string<\App\Storage\Storage>
      **/
     protected $databaseStorage = \App\Storage\Database\Grade::class;
+
+    /**
+     * Get the user who owns this grade.
+     *
+     * @return User|null
+     */
+    public function user() {
+        if (!isset($this->user_id)) {
+            return null;
+        }
+        return User::get($this->user_id);
+    }
 }

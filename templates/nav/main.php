@@ -6,7 +6,7 @@ $items = [
 ?>
 <ul>
     <?php foreach ($items as $key => $name): ?>
-        <?php if (user_can("view $key")): ?>
+        <?php if (user_can("manage $key")): ?>
             <li><a href="/<?= htmlspecialchars($key) ?>" class="secondary"><?= htmlspecialchars($name) ?></a></li>
         <?php endif; ?>
     <?php endforeach; ?>

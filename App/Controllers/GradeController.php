@@ -28,16 +28,18 @@ class GradeController extends Controller {
         $grade = $_POST['grade'] ?? '';
         $date = $_POST['date'] ?? date('Y-m-d');
         $subject = $_POST['subject'] ?? '';
+        $user = current_user();
         if ($grade && $subject) {
             Grade::add([
                 'grade' => $grade,
                 'date' => $date,
-                'subject' => $subject
+                'subject' => $subject,
+                'user_id' => $user->id
             ]);
             \Flight::redirect('/grades');
         } else {
             self::render('grade.edit', [
-                'grade' => null,
+                'grade' => new Grade($_POST),
                 'error' => 'Grade and Subject are required.'
             ]);
         }
@@ -58,19 +60,22 @@ class GradeController extends Controller {
      * @permission edit grades
      */
     public static function edit($id) {
-        $gradeVal = $_POST['grade'] ?? '';
+        $grade = $_POST['grade'] ?? '';
         $date = $_POST['date'] ?? date('Y-m-d');
         $subject = $_POST['subject'] ?? '';
-        if ($gradeVal && $subject) {
+        $user = current_user();
+        if ($grade && $subject) {
             Grade::update($id, [
-                'grade' => $gradeVal,
+                'grade' => $grade,
                 'date' => $date,
-                'subject' => $subject
+                'subject' => $subject,
+                'user_id' => $user->id
             ]);
             \Flight::redirect('/grades');
         } else {
+            $data = array_merge(['id' => $id], $_POST);
             self::render('grade.edit', [
-                'grade' => array_merge(Grade::get($id) ?? [], $_POST),
+                'grade' => new Grade($data),
                 'error' => 'Grade and Subject are required.'
             ]);
         }

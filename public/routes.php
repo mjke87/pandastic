@@ -38,4 +38,19 @@ Flight::group('', function () {
     Flight::route('POST /login', [AuthController::class, 'login']);
     Flight::route('GET /logout', [AuthController::class, 'logout']);
 
+    // Dashboard goal update
+    Flight::route('POST /set-goal', function() {
+        $user = current_user();
+        $userArr = (array)$user;
+        $user_id = isset($userArr['id']) ? $userArr['id'] : null;
+        $goal = isset($_POST['goal']) ? intval($_POST['goal']) : 10;
+        if ($user_id) {
+            \App\Models\User::update($user_id, ['goal' => $goal]);
+            // Update session user object
+            $user->goal = $goal;
+            \Flight::set('user', $user);
+        }
+        \Flight::redirect('/');
+    });
+
 }, [new \App\Middlewares\AuthGate()]);
