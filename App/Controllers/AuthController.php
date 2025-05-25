@@ -18,8 +18,8 @@ class AuthController extends Controller
             $users = User::all();
             foreach ($users as $user) {
                 if ($user['username'] === $username && password_verify($password, $user['password'])) {
-                    $_SESSION['user_id'] = $user['id'];
-                    $_SESSION['username'] = $user['username'];
+                    \Flight::session()->set('user_id', $user['id']);
+                    \Flight::session()->set('username', $user['username']);
                     \Flight::redirect('/');
                     return;
                 }
@@ -32,7 +32,7 @@ class AuthController extends Controller
     }
 
     public static function logout() {
-        session_destroy();
+        \Flight::session()->destroy();
         self::render('auth.logout', []);
     }
 }

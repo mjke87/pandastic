@@ -28,7 +28,7 @@ class AuthMiddleware
             return;
         }
         // If not logged in, redirect to login
-        if (empty($_SESSION['user_id'])) {
+        if (empty(\Flight::session()->get('user_id'))) {
             \Flight::redirect('/login');
             exit;
         }
