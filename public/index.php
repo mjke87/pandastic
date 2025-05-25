@@ -8,14 +8,10 @@ $app = Flight::app();
 $app->register('session', Session::class);
 
 // ----------------------------------------------------
-// Load helpers
+// Load dependencies
 // ----------------------------------------------------
 require_once __DIR__ . '/helpers.php';
-
-// ----------------------------------------------------
-// Routing
-// ----------------------------------------------------
-require __DIR__ . '/routes.php';
+require_once __DIR__ . '/routes.php';
 
 
 // Basic error handling
@@ -38,14 +34,17 @@ Flight::before('start', function(&$params, &$output){
     \App\Middlewares\AuthMiddleware::handle();
 
     // Set the current user in Flight
-    $user = \App\Models\User::get($_SESSION['user_id'] ?? null);
+    $session = Flight::session();
+    $user_id = $session->get('user_id');
+    $user = \App\Models\User::get($user_id);
     Flight::set('user', $user);
 
     // Load permissions matrix
     $permissions = config('permissions');
 
-    // Setup permissions
+    // Setup permissions system
     $userRole = $user->role ?? 'guest';
+    error_log("User: " . print_r($user, true));
     $permission = new \flight\Permission($userRole);
     $capabilities = array_unique(array_merge(...array_values($permissions)));
 
@@ -63,6 +62,7 @@ Flight::before('start', function(&$params, &$output){
 
     Flight::set('permission', $permission);
 });
+
 
 // Start the Flight application
 Flight::start();

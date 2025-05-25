@@ -73,7 +73,8 @@ abstract class FileStorage implements Storage {
         $this->lock();
         $data = $this->read();
         $this->unlock();
-        return isset($data[$id]) ? $data[$id] : null;
+        return $data[$id] ?? null;
+
     }
 
     public function update($id, $newData) {

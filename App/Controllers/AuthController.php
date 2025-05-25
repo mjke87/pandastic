@@ -32,7 +32,8 @@ class AuthController extends Controller
     }
 
     public static function logout() {
-        \Flight::session()->destroy();
+        $session = \Flight::session();
+        $session->destroy($session->id());
         self::render('auth.logout', []);
     }
 }

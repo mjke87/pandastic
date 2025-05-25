@@ -24,13 +24,13 @@ abstract class Model {
     }
 
     public static function all() {
-        return self::make()->storage()->all();
+        return array_map(fn($e) => (object) $e, self::make()->storage()->all());
     }
     public static function add($data) {
         return self::make()->storage()->add($data);
     }
     public static function get($id) {
-        return self::make()->storage()->get($id);
+        return (object) self::make()->storage()->get($id);
     }
     public static function update($id, $data) {
         return self::make()->storage()->update($id, $data);

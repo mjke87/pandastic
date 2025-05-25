@@ -17,13 +17,4 @@ class User extends Model {
      * @var class-string<\App\Storage\Storage>
      **/
     protected $databaseStorage = \App\Storage\Database\User::class;
-
-    /**
-     * Get the current user from the session.
-     *
-     * @return object
-     */
-    public static function current() {
-        return (object) \Flight::get('user') ?: [];
-    }
 }

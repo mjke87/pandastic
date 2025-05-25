@@ -6,15 +6,29 @@ use App\Models\User;
 
 class UserController extends Controller
 {
+    /**
+     * Render the index view for users.
+     *
+     * @return void
+     * @permission view users
+     */
     public static function index() {
         $users = User::all();
         self::render('user.list', ['users' => $users]);
     }
 
+    /**
+     * Show the create user form.
+     * @permission create users
+     */
     public static function createForm() {
         self::render('user.edit', ['user' => null]);
     }
 
+    /**
+     * Handle user creation.
+     * @permission create users
+     */
     public static function create() {
         $username = $_POST['username'] ?? '';
         $password = $_POST['password'] ?? '';
@@ -40,11 +54,19 @@ class UserController extends Controller
         }
     }
 
+    /**
+     * Show the edit user form.
+     * @permission edit users
+     */
     public static function editForm($id) {
         $user = User::get($id);
         self::render('user.edit', ['user' => $user]);
     }
 
+    /**
+     * Handle user edit.
+     * @permission edit users
+     */
     public static function edit($id) {
         $username = $_POST['username'] ?? '';
         $password = $_POST['password'] ?? '';
@@ -73,11 +95,19 @@ class UserController extends Controller
         }
     }
 
+    /**
+     * Delete a user.
+     * @permission delete users
+     */
     public static function delete($id) {
         User::delete($id);
         \Flight::redirect('/users');
     }
 
+    /**
+     * View user details.
+     * @permission view users
+     */
     public static function view($id) {
         $user = User::get($id);
         self::render('user.detail', ['user' => $user]);

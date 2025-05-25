@@ -5,15 +5,25 @@ namespace App\Controllers;
 use App\Models\Grade;
 
 class GradeController extends Controller {
+
+    /**
+     * @permission view grades
+     */
     public static function index() {
         $grades = Grade::all();
         self::render('grade.list', ['grades' => $grades]);
     }
 
+    /**
+     * @permission create grades
+     */
     public static function createForm() {
         self::render('grade.edit', ['grade' => null]);
     }
 
+    /**
+     * @permission create grades
+     */
     public static function create() {
         $grade = $_POST['grade'] ?? '';
         $date = $_POST['date'] ?? date('Y-m-d');
@@ -33,6 +43,9 @@ class GradeController extends Controller {
         }
     }
 
+    /**
+     * @permission edit grades
+     */
     public static function editForm($id) {
         $grade = Grade::get($id);
         if (!$grade) {
@@ -41,6 +54,9 @@ class GradeController extends Controller {
         self::render('grade.edit', ['grade' => $grade]);
     }
 
+    /**
+     * @permission edit grades
+     */
     public static function edit($id) {
         $gradeVal = $_POST['grade'] ?? '';
         $date = $_POST['date'] ?? date('Y-m-d');
@@ -60,11 +76,17 @@ class GradeController extends Controller {
         }
     }
 
+    /**
+     * @permission delete grades
+     */
     public static function delete($id) {
         Grade::delete($id);
         \Flight::redirect('/grades');
     }
 
+    /**
+     * @permission view grades
+     */
     public static function view($id) {
         $grade = Grade::get($id);
         if (!$grade) {

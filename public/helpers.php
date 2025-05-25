@@ -78,7 +78,7 @@ function render_layout($view, $params = [], $layout = 'layout') {
  * @return \App\Models\User|null The current user or null if not logged in
  */
 function current_user() {
-    return \App\Models\User::current();
+    return (object) \Flight::get('user') ?: [];
 }
 
 /**

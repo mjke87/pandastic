@@ -1,4 +1,13 @@
+<?php
+$items = [
+    'grades' => 'Grades',
+    'users' => 'Users',
+];
+?>
 <ul>
-    <li><a href="/grades" class="secondary">Grades</a></li>
-    <li><a href="/users" class="secondary">Users</a></li>
+    <?php foreach ($items as $key => $name): ?>
+        <?php if (user_can("view $key")): ?>
+            <li><a href="/<?= htmlspecialchars($key) ?>" class="secondary"><?= htmlspecialchars($name) ?></a></li>
+        <?php endif; ?>
+    <?php endforeach; ?>
 </ul>

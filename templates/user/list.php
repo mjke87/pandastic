@@ -5,7 +5,9 @@
         </li>
     </ul>
     <ul>
-        <li><a href="/user/create" role="button">Create User</a></li>
+        <?php if (user_can('create users')): ?>
+            <li><a href="/user/create" role="button">Create User</a></li>
+        <?php endif; ?>
     </ul>
 </nav>
 <?php
