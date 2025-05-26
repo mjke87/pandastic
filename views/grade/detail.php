@@ -1,6 +1,6 @@
 <article>
     <header>
-        <h2>Grade: <?= htmlspecialchars($grade->grade) ?></h2>
+        <h2><?= $grade->user()->name ?>: <?= htmlspecialchars($grade->grade) ?></h2>
     </header>
     <p>Subject: <?= htmlspecialchars($grade->subject) ?></p>
     <p>Date: <?= htmlspecialchars($grade->date) ?></p>

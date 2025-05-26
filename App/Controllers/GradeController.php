@@ -3,6 +3,8 @@
 namespace App\Controllers;
 
 use App\Models\Grade;
+use App\Models\Role;
+use App\Models\User;
 
 class GradeController extends Controller {
 
@@ -18,29 +20,54 @@ class GradeController extends Controller {
      * @permission create grades
      */
     public static function createForm() {
-        self::render('grade.edit', ['grade' => null]);
+        self::render('grade.edit', ['grade' => Grade::make()]);
+    }
+
+    protected static function validate($data) {
+
+        // Validate required fields
+        $requiredFields = ['grade', 'subject', 'user_id'];
+        $invalid = array_diff($requiredFields, array_keys($data));
+
+        // Abort early if required fields are missing
+        if (!empty($invalid)) {
+            return $invalid;
+        }
+
+        // Check if date is valid
+        if ($data['date'] && !\DateTime::createFromFormat('Y-m-d', $data['date'])) {
+            $invalid[] = 'date';
+        }
+
+        // Check if user_id is valid
+        if (isset($data['user_id']) && !User::get($data['user_id'])) {
+            $invalid[] = 'user_id';
+        }
+        return $invalid;
     }
 
     /**
      * @permission create grades
      */
     public static function create() {
-        $grade = $_POST['grade'] ?? '';
-        $date = $_POST['date'] ?? date('Y-m-d');
-        $subject = $_POST['subject'] ?? '';
+        $request = \Flight::request();
+        $data = $request->data->getData();
         $user = current_user();
-        if ($grade && $subject) {
+        $data['user_id'] = $user->can('manage users') ? ($data['user_id'] ?? '') : $user->id;
+        $invalid = self::validate($data);
+        if (empty($invalid)) {
             Grade::add([
-                'grade' => $grade,
-                'date' => $date,
-                'subject' => $subject,
-                'user_id' => $user->id
+                'grade' => $data['grade'] ?? '',
+                'date' => $data['date'] ?? date('Y-m-d'),
+                'subject' => $data['subject'] ?? '',
+                'user_id' => $data['user_id'] ?? $user->id
             ]);
-            \Flight::redirect('/grades');
+            \Flight::redirect('/grades?success');
         } else {
             self::render('grade.edit', [
-                'grade' => new Grade($_POST),
-                'error' => 'Grade and Subject are required.'
+                'grade' => Grade::fill($data),
+                'error' => 'The following fields are invalid or missing:',
+                'fields' => $invalid,
             ]);
         }
     }
@@ -60,22 +87,23 @@ class GradeController extends Controller {
      * @permission edit grades
      */
     public static function edit($id) {
-        $grade = $_POST['grade'] ?? '';
-        $date = $_POST['date'] ?? date('Y-m-d');
-        $subject = $_POST['subject'] ?? '';
+        $grade = \Flight::request()->data['grade'] ?? '';
+        $date = \Flight::request()->data['date'] ?? date('Y-m-d');
+        $subject = \Flight::request()->data['subject'] ?? '';
         $user = current_user();
-        if ($grade && $subject) {
+        $user_id = $user->can('manage users') ? (\Flight::request()->data['user_id'] ?? '') : $user->id;
+
+        if ($grade && $subject && $user_id) {
             Grade::update($id, [
                 'grade' => $grade,
                 'date' => $date,
                 'subject' => $subject,
-                'user_id' => $user->id
+                'user_id' => $user_id
             ]);
-            \Flight::redirect('/grades');
+            \Flight::redirect('/grade/' . $id . '?success');
         } else {
-            $data = array_merge(['id' => $id], $_POST);
             self::render('grade.edit', [
-                'grade' => new Grade($data),
+                'grade' => Grade::fill(\Flight::request()->data->getData()),
                 'error' => 'Grade and Subject are required.'
             ]);
         }

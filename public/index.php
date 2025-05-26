@@ -43,8 +43,7 @@ Flight::before('start', function(&$params, &$output){
     $permissions = config('permissions');
 
     // Setup permissions system
-    $userRole = $user->role ?? 'guest';
-    error_log("User: " . print_r($user, true));
+    $userRole = $user->role ?? \App\Models\Role::Guest->value;
     $permission = new \flight\Permission($userRole);
     $capabilities = array_unique(array_merge(...array_values($permissions)));
 
@@ -57,7 +56,7 @@ Flight::before('start', function(&$params, &$output){
 
     // Always define 'loggedIn'
     $permission->defineRule('loggedIn', function($role) {
-        return $role !== 'guest';
+        return $role !== \App\Models\Role::Guest->value;
     });
 
     Flight::set('permission', $permission);

@@ -19,7 +19,7 @@
     <header>
         <nav>
             <ul>
-                <li><a href="/"><img src="/public/img/logo.png" alt="<?= config('app.name') ?>" class="logo" style="max-height: 50px;"/></a></li>
+                <li><a href="/"><img src="/public/img/logo.png" alt="<?= config('app.name') ?>" class="logo" style="max-height: 50px;" /></a></li>
                 <!--<li><strong><a href="/" class="contrast"><?= config('app.name') ?></a></strong></li>-->
             </ul>
 
@@ -30,6 +30,16 @@
             </ul>
         </nav>
     </header>
+
+    <?php if (isset($_GET['success'])): ?>
+        <article style="background: darkgreen">
+            <p style="color: white;">Action completed successfully!</p>
+        </article>
+    <?php elseif (isset($_GET['error'])): ?>
+        <article style="background: darkred">
+            <p style="color: white;">An error occurred while processing your request.</p>
+        </article>
+    <?php endif; ?>
 
     <?php if (!empty($content)) : ?>
         <main>

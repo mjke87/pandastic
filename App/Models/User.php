@@ -6,19 +6,19 @@ use App\Models\Role;
 
 class User extends Model {
 
-    /**
-     * The storage class used for file-based operations.
-     *
-     * @var class-string<\App\Storage\Storage>
-     **/
     protected $fileStorage = \App\Storage\File\User::class;
-
-    /**
-     * The storage class used for database operations.
-     *
-     * @var class-string<\App\Storage\Storage>
-     **/
     protected $databaseStorage = \App\Storage\Database\User::class;
+    protected $fillable = [
+        'username',
+        'name',
+        'email',
+        'password',
+        'role',
+        'birthday',
+        'current_funds',
+        'multiplier',
+        'goal',
+    ];
 
     /**
      * Get all users with a specific role.
@@ -48,5 +48,26 @@ class User extends Model {
      */
     public function isRole(Role $role): bool {
         return $this->role === $role->value || $this->role === (string)$role;
+    }
+
+    /**
+     * Get the user's permissions based on their role.
+     *
+     * @return array
+     */
+    public function permissions(): array {
+        $role = $this->role;
+        $permissions = config('permissions');
+        return $permissions[$role] ?? [];
+    }
+
+    /**
+     * Check if the user has the given permission.
+     *
+     * @param string $permission
+     * @return bool
+     */
+    public function can(string $permission): bool {
+        return in_array($permission, $this->permissions());
     }
 }

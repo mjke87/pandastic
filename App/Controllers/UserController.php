@@ -51,7 +51,7 @@ class UserController extends Controller
             \Flight::redirect('/users');
         } else {
             self::render('user.edit', [
-                'user' => new User($_POST),
+                'user' => User::fill($_POST),
                 'error' => 'Username, password, and name are required.'
             ]);
         }
@@ -95,11 +95,11 @@ class UserController extends Controller
                 $updateData['password'] = password_hash($password, PASSWORD_DEFAULT);
             }
             User::update($id, $updateData);
-            \Flight::redirect('/users');
+            \Flight::redirect('/user/' . $id . '?success');
         } else {
             $data = array_merge(['id' => $id], $_POST);
             self::render('user.edit', [
-                'user' => new User($data),
+                'user' => User::fill($data),
                 'error' => 'Username and name are required.'
             ]);
         }
