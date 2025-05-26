@@ -6,7 +6,7 @@ return [
     'public_dir' => __DIR__ . '/../public',
     'vendor_dir' => __DIR__ . '/../vendor',
     'config_dir' => __DIR__,
-    'templates_dir' => __DIR__ . '/../templates',
+    'templates_dir' => __DIR__ . '/../views',
 
     'name' => 'Pandastic',
 
