@@ -14,7 +14,6 @@
         <p>Username: <?= htmlspecialchars($user->username ?? '') ?></p>
         <p>Name: <?= htmlspecialchars($user->name ?? '') ?></p>
         <p>Birthday: <?= format_date($user->birthday ?? '') ?></p>
-        <p>Funds: CHF<?= number_format($user->current_funds ?? 0, 2) ?></p>
         <p>Multiplier: <?= htmlspecialchars($user->multiplier ?? 1) ?></p>
         <footer>
             <nav style="padding: 0 calc(var(--pico-block-spacing-horizontal)/2);">

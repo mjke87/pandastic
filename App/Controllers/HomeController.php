@@ -46,16 +46,32 @@ class HomeController extends Controller {
      * @return array
      */
     private static function prepareChild($user) {
-        $goal = $user->goal ?? 100;
-        $grades = $user->grades();
-        $progress = count($grades);
-        $percent = min(100, ($goal > 0 ? round($progress / $goal * 100) : 0));
+        $goal = floatval($user->goal ?? 100);
+        $goal_name = $user->goal_name ?? '';
+        $funds = $user->totalFundsEarned();
+        $percent = $goal > 0 ? min(100, round($funds / $goal * 100)) : 0;
         return [
             'user' => $user,
             'goal' => $goal,
-            'grades' => $grades,
-            'progress' => $progress,
+            'goal_name' => $goal_name,
+            'funds' => $funds,
+            'grades' => $user->grades(),
+            'progress' => $funds,
             'percent' => $percent
         ];
+    }
+
+    /**
+     * Handle dashboard goal update.
+     */
+    public static function setGoal() {
+        $request = \Flight::request();
+        $data = $request->data->getData();
+        $user = current_user();
+        \App\Models\User::update($user->id, [
+            'goal' => floatval($data['goal'] ?? 100),
+            'goal_name' => $data['goal_name'] ?? ''
+        ]);
+        \Flight::redirect('/?success');
     }
 }

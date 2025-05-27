@@ -10,7 +10,8 @@ return [
 
     'name' => 'Pandastic',
 
-    'currency' => '$',
+    'currency' => 'CHF ',
+    // Grade rewards: grade value => reward amount
     'grade_rewards' => [
         6 => 10,
         5.75 => 7.5,

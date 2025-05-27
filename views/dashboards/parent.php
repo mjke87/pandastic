@@ -15,14 +15,26 @@
                         <th>Name</th>
                         <th>Progress</th>
                         <th>&nbsp;</th>
+                        <th>Goal</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach ($children as $child): ?>
                         <tr>
                             <td><?= htmlspecialchars($child['user']->name ?? $child['user']->username) ?></td>
-                            <td><progress value="<?= $child['percent'] ?>" max="100" style="height: 1rem; margin-bottom: 0;"></progress></td>
-                            <td><?= $child['progress'] ?> / <?= $child['goal'] ?> grades</td>
+                            <td>
+                                <progress value="<?= $child['funds'] ?>" max="<?= $child['goal'] ?>" style="height: 1rem; margin-bottom: 0;"></progress>
+                                <?= config('app.currency') ?><?= number_format($child['funds'], 2) ?> / <?= config('app.currency') ?><?= number_format($child['goal'], 2) ?>
+                                (<?= $child['percent'] ?>%)
+                            </td>
+                            <td>
+                                <?php if (!empty($child['goal_name'])): ?>
+                                    <?= htmlspecialchars($child['goal_name']) ?>
+                                <?php endif; ?>
+                            </td>
+                            <td>
+                                <?= config('app.currency') ?><?= number_format($child['goal'], 2) ?>
+                            </td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>

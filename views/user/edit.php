@@ -23,16 +23,16 @@
             <input type="date" id="birthday" name="birthday" value="<?= htmlspecialchars($user->birthday ?? '') ?>">
         </div>
         <div>
-            <label for="current_funds">Funds (CHF)</label>
-            <input type="number" id="current_funds" name="current_funds" step="0.01" value="<?= htmlspecialchars($user->current_funds ?? '0') ?>">
-        </div>
-        <div>
             <label for="multiplier">Multiplier</label>
             <input type="number" id="multiplier" name="multiplier" step="0.01" value="<?= htmlspecialchars($user->multiplier ?? '1') ?>">
         </div>
         <div>
-            <label for="goal">Grade Goal</label>
-            <input type="number" id="goal" name="goal" min="1" value="<?= htmlspecialchars($user->goal ?? '10') ?>">
+            <label for="goal">Funding Goal Amount (<?= config('app.currency') ?>)</label>
+            <input type="number" id="goal" name="goal" min="1" step="0.01" value="<?= htmlspecialchars($user->goal ?? '100') ?>">
+        </div>
+        <div>
+            <label for="goal_name">Funding Goal Name (e.g. "New Phone")</label>
+            <input type="text" id="goal_name" name="goal_name" value="<?= htmlspecialchars($user->goal_name ?? '') ?>">
         </div>
         <button type="submit" class="primary">Save</button>
         <a href="/users" class="secondary">Cancel</a>

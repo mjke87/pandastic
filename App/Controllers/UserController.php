@@ -35,8 +35,8 @@ class UserController extends Controller
         $name = $_POST['name'] ?? '';
         $birthday = $_POST['birthday'] ?? '';
         $multiplier = floatval($_POST['multiplier'] ?? 1);
-        $current_funds = floatval($_POST['current_funds'] ?? 0);
         $goal = floatval($_POST['goal'] ?? 100);
+        $goal_name = $_POST['goal_name'] ?? '';
 
         if ($username && $password && $name) {
             User::add([
@@ -45,8 +45,8 @@ class UserController extends Controller
                 'name' => $name,
                 'birthday' => $birthday,
                 'multiplier' => $multiplier,
-                'current_funds' => $current_funds,
-                'goal' => $goal
+                'goal' => $goal,
+                'goal_name' => $goal_name,
             ]);
             \Flight::redirect('/users');
         } else {
@@ -79,8 +79,8 @@ class UserController extends Controller
         $name = $_POST['name'] ?? '';
         $birthday = $_POST['birthday'] ?? '';
         $multiplier = floatval($_POST['multiplier'] ?? 1);
-        $current_funds = floatval($_POST['current_funds'] ?? 0);
         $goal = floatval($_POST['goal'] ?? 100);
+        $goal_name = $_POST['goal_name'] ?? '';
 
         if ($username && $name) {
             $updateData = [
@@ -88,8 +88,8 @@ class UserController extends Controller
                 'name' => $name,
                 'birthday' => $birthday,
                 'multiplier' => $multiplier,
-                'current_funds' => $current_funds,
-                'goal' => $goal
+                'goal' => $goal,
+                'goal_name' => $goal_name,
             ];
             if (!empty($password)) {
                 $updateData['password'] = password_hash($password, PASSWORD_DEFAULT);

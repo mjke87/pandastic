@@ -206,8 +206,13 @@ abstract class Model {
      * @return static
      */
     public static function update($id, $data) {
-        $data['id'] = $id;
-        $instance = new static($data);
+        $instance = self::get($id);
+        if (!$instance) {
+            return $instance;
+        }
+        foreach ($data as $key => $value) {
+            $instance->{$key} = $value;
+        }
         $instance->save();
         return $instance;
     }
