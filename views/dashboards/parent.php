@@ -14,7 +14,6 @@
                     <tr>
                         <th>Name</th>
                         <th>Progress</th>
-                        <th>&nbsp;</th>
                         <th>Goal</th>
                     </tr>
                 </thead>
@@ -28,12 +27,10 @@
                                 (<?= $child['percent'] ?>%)
                             </td>
                             <td>
+                                <?= config('app.currency') ?><strong><?= number_format($child['goal'], 2) ?></strong>
                                 <?php if (!empty($child['goal_name'])): ?>
-                                    <?= htmlspecialchars($child['goal_name']) ?>
+                                    <br/>for <?= htmlspecialchars($child['goal_name']) ?>
                                 <?php endif; ?>
-                            </td>
-                            <td>
-                                <?= config('app.currency') ?><?= number_format($child['goal'], 2) ?>
                             </td>
                         </tr>
                     <?php endforeach; ?>

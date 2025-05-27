@@ -24,4 +24,21 @@ class Grade extends Model {
         }
         return User::get($this->user_id);
     }
+
+    /**
+     * Get the grade reward as a float.
+     *
+     * @return float
+     */
+    public function reward() {
+        if (isset($this->grade)) {
+            $rewards = config('app.grade_rewards', []);
+            foreach ($rewards as $grade => $reward) {
+                if ($this->grade >= $grade) {
+                    return floatval($reward);
+                }
+            }
+        }
+        return 0;
+    }
 }

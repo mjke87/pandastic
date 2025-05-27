@@ -62,14 +62,27 @@ function render_layout($view, $params = [], $layout = 'layout') {
         'title' => config('app.app_name'),
         'css_framework' => [
             'https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.cyan.min.css',
-            //'https://cdn.jsdelivr.net/npm/@tabler/core@1.3.2/dist/css/tabler.min.css',
+            asset_url('css/style.css'),
         ],
         'js_framework' => [
             'https://cdn.jsdelivr.net/npm/@picocss/pico@2/js/pico.min.js',
-            //'https://cdn.jsdelivr.net/npm/@tabler/core@1.3.2/dist/js/tabler.min.js',
+            asset_url('js/app.js'),
         ],
         'theme' => Flight::get('theme') ?? 'light',
     ]);
+}
+
+/**
+ * Get the URL for an asset in the public directory.
+ *
+ * @param string $path Path relative to the public directory (e.g. 'img/logo.png')
+ * @return string
+ */
+function asset_url($path) {
+    $path = ltrim($path, '/');
+    $public_dir = config('app.public_dir') ?: APP_ROOT . '/public';
+    $public_url =  str_replace(APP_ROOT, '', rtrim(str_replace('\\', '/', $public_dir), '/') . '/');
+    return htmlspecialchars($public_url . $path);
 }
 
 /**
@@ -126,4 +139,17 @@ function is_route($route, $fuzzy = false) {
     }
     // fuzzy match if current URL starts with the route
     return strpos(rtrim($current, '/'), rtrim($route, '/')) === 0;
+}
+
+/**
+ * Generate an icon HTML element.
+ * This function creates an <img> tag for an icon image.
+ * The image should be located in the public/img directory.
+ *
+ * @param string $name The name of the icon file (without extension)
+ * @param string $type The file type of the icon (default 'svg')
+ * @return string HTML <img> tag
+ */
+function icon($name) {
+    return '<img src="' . asset_url("icons/$name.svg") . '" alt="' . htmlspecialchars(ucfirst($name) . ' Logo') . '" class="icon">';
 }

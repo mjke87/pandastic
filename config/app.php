@@ -1,12 +1,12 @@
 <?php
 
 return [
-    'source_dir' => __DIR__ . '/../App',
-    'data_dir' => __DIR__ . '/../data',
-    'public_dir' => __DIR__ . '/../public',
-    'vendor_dir' => __DIR__ . '/../vendor',
+    'source_dir' => APP_ROOT . '/App',
+    'data_dir' => APP_ROOT . '/data',
+    'public_dir' => APP_ROOT . '/public',
+    'vendor_dir' => APP_ROOT . '/vendor',
     'config_dir' => __DIR__,
-    'templates_dir' => __DIR__ . '/../views',
+    'templates_dir' => APP_ROOT . '/views',
 
     'name' => 'Pandastic',
 

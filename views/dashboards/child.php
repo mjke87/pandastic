@@ -5,6 +5,10 @@
         <h3>Your Progress</h3>
     </header>
     <div>
+        <p>
+            You are doing <strong>pandastic</strong>! Keep up the good work!
+            <?= icon('panda') ?>
+        </p>
         <progress value="<?= $funds ?>" max="<?= $goal ?>" style="height:3rem;"></progress>
         <p>
             <?= config('app.currency') ?><?= number_format($funds, 2) ?> / <?= config('app.currency') ?><?= number_format($goal, 2) ?>
@@ -20,10 +24,16 @@
     <header>
         <h3>Your Grades</h3>
     </header>
-    <div>
+    <div class="grid" data-columns="4">
         <?php if (empty($grades)): ?>
             <p>No grades yet.</p>
         <?php else: ?>
+            <?php foreach ($grades as $grade): ?>
+                <?php render_view('grade.card', ['grade' => $grade]); ?>
+            <?php endforeach; ?>
+            <?php foreach ($grades as $grade): ?>
+                <?php render_view('grade.card', ['grade' => $grade]); ?>
+            <?php endforeach; ?>
             <?php foreach ($grades as $grade): ?>
                 <?php render_view('grade.card', ['grade' => $grade]); ?>
             <?php endforeach; ?>

@@ -1,8 +1,10 @@
+/* Override some Pico CSS variables */
 main {
     --pico-card-box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     --pico-block-spacing-vertical: 2rem;
 }
 
+/* Avoid margin on standalone headings within card headers */
 article > header > h1,
 article > header > h2,
 article > header > h3 {
@@ -15,10 +17,55 @@ article > header > h3 + p {
     margin-top: var(--pico-typography-spacing-vertical);
 }
 
+/* Change box shadow of nexted cards */
+article article {
+    --pico-card-box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+}
+/* Hightlight active links in the navigation */
 nav li a:is([aria-current]:not([aria-current=false])) {
     text-decoration: var(--pico-text-decoration);
 }
 
+/* Add max columms to grid */
+@media (min-width: 768px) {
+    .grid[data-columns="2"] {
+        grid-template-columns: repeat(2, minmax(0%, 1fr));
+    }
+    .grid[data-columns="3"] {
+        grid-template-columns: repeat(3, minmax(0%, 1fr));
+    }
+    .grid[data-columns="4"] {
+        grid-template-columns: repeat(4, minmax(0%, 1fr));
+    }
+    .grid[data-columns="5"] {
+        grid-template-columns: repeat(5, minmax(0%, 1fr));
+    }
+    .grid[data-columns="6"] {
+        grid-template-columns: repeat(6, minmax(0%, 1fr));
+    }
+}
+
+.grid article {
+    --pico-block-spacing-vertical: var(--pico-spacing);
+    margin-bottom: 0; /* Handles by grid gap */
+}
+
+.icon {
+    height: 1.5em;
+    vertical-align: middle;
+}
+
+a[role="delete"],
+a[role="delete"]:hover,
+a[role="delete"]:focus,
+a[role="delete"]:active {
+    --pico-color: var(--pico-del-color);
+    --pico-underline: var(--pico-del-color);
+    --pico-text-decoration: underline;
+
+}
+
+/* Add icons */
 [class^="icon-"]:before,
 [class*=" icon-"]:before {
     content: "";

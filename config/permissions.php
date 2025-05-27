@@ -14,7 +14,7 @@ return [
         'manage grades',
     ],
     'child' => [
-        'view users',
+        //'view users',
         'view grades',
     ],
     'guest' => [
