@@ -47,7 +47,7 @@ class User extends Model {
      * @return bool
      */
     public function isRole(Role $role): bool {
-        return $this->role === $role->value || $this->role === (string)$role;
+        return $this->role === $role->value;
     }
 
     /**
