@@ -109,3 +109,21 @@ function format_date($date, $format = null) {
     $format = $format ?: config('app.date_format') ?: 'd.m.Y';
     return $dt->format($format);
 }
+
+/**
+ * Check if the given route matches the current URL.
+ * By default, it checks for an exact match.
+ * If you set fuzzy mode, it checks if the current URL starts with the given route.
+ *
+ * @param string $route The URL or path to check (e.g., '/grades')
+ * @param string $fuzzy Whether to use fuzzy matching (default false)
+ * @return bool
+ */
+function is_route($route, $fuzzy = false) {
+    $current = Flight::request()->url;
+    if (!$fuzzy) {
+        return rtrim($current, '/') === rtrim($route, '/');
+    }
+    // fuzzy match if current URL starts with the route
+    return strpos(rtrim($current, '/'), rtrim($route, '/')) === 0;
+}

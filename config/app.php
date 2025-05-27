@@ -21,9 +21,4 @@ return [
     'date_format' => 'd.m.Y',
 
     'storage' => 'file', // or 'database'
-
-    //'roles' => [
-    //    'parent' => 'Parent',
-    //    'child' => 'Child',
-    //],
 ];

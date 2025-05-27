@@ -25,9 +25,7 @@
 
             <?php render_view('nav.main'); ?>
 
-            <ul>
-                <li><a href="#" class="secondary" id="toggle-color-scheme" aria-label="Toggle Color Scheme">☀️</a></li>
-            </ul>
+            <?php render_view('nav.secondary'); ?>
         </nav>
     </header>
 
