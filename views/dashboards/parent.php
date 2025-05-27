@@ -56,9 +56,11 @@
                         <th>Grade</th>
                         <th>Subject</th>
                         <th>Date</th>
+                        <th>Reward</th>
                     </tr>
                 </thead>
                 <tbody>
+                    <?php $total = 0; ?>
                     <?php foreach ($children as $child): ?>
                         <?php if (!empty($child['grades'])): ?>
                             <?php foreach ($child['grades'] as $grade): ?>
@@ -67,17 +69,25 @@
                                     <td><?= htmlspecialchars($grade->grade) ?></td>
                                     <td><?= htmlspecialchars($grade->subject) ?></td>
                                     <td><?= format_date($grade->date) ?></td>
+                                    <td><?= config('app.currency') ?><?= number_format($grade->reward(), 2) ?></td>
                                 </tr>
+                                <?php $total += $grade->reward(); ?>
                             <?php endforeach; ?>
                         <?php else: ?>
                             <tr>
                                 <td><?= htmlspecialchars($child['user']->name ?? $child['user']->username) ?></td>
-                                <td colspan="3">No grades yet.</td>
+                                <td colspan="4">No grades yet.</td>
                             </tr>
                         <?php endif; ?>
                     <?php endforeach; ?>
                 </tbody>
             </table>
+            <?php if ($total > 0): ?>
+                <p>Your children have earned a total of
+                    <strong><?= config('app.currency') ?><?= number_format($total, 2) ?></strong>
+                    in rewards from their grades.
+                </p>
+            <?php endif; ?>
         <?php endif; ?>
     </div>
 </article>

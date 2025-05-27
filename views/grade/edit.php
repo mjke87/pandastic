@@ -36,6 +36,11 @@
                 </select>
             </div>
         <?php endif; ?>
+        <div>
+            <label for="reward">Reward (<?= config('app.currency') ?>)</label>
+            <input type="number" id="reward" name="reward"
+                value="<?= htmlspecialchars($grade->reward() ?? '') ?>">
+        </div>
         <button type="submit" class="primary"><?= !$grade->exists() ? 'Create' : 'Save' ?></button>
         <?php if ($grade->exists()): ?>
             <a href="/grade/<?= htmlspecialchars($grade->id) ?>" class="secondary">Cancel</a>

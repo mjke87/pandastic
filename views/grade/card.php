@@ -14,7 +14,9 @@
             in
             <strong><?= htmlspecialchars($grade->subject) ?></strong>
             on
-            <?= format_date($grade->date) ?></p>
+            <?= format_date($grade->date) ?>
+            <br>
+            Reward: <?= config('app.currency') ?><strong><?= number_format($grade->reward(), 2) ?></strong>
         </div>
     </a>
 </article>

@@ -3,7 +3,6 @@
 namespace App\Controllers;
 
 use App\Models\Grade;
-use App\Models\Role;
 use App\Models\User;
 
 class GradeController extends Controller {
@@ -23,44 +22,22 @@ class GradeController extends Controller {
         self::render('grade.edit', ['grade' => Grade::make()]);
     }
 
-    protected static function validate($data) {
-
-        // Validate required fields
-        $requiredFields = ['grade', 'subject', 'user_id'];
-        $invalid = array_diff($requiredFields, array_keys($data));
-
-        // Abort early if required fields are missing
-        if (!empty($invalid)) {
-            return $invalid;
-        }
-
-        // Check if date is valid
-        if ($data['date'] && !\DateTime::createFromFormat('Y-m-d', $data['date'])) {
-            $invalid[] = 'date';
-        }
-
-        // Check if user_id is valid
-        if (isset($data['user_id']) && !User::get($data['user_id'])) {
-            $invalid[] = 'user_id';
-        }
-        return $invalid;
-    }
-
     /**
      * @permission create grades
      */
     public static function create() {
-        $request = \Flight::request();
-        $data = $request->data->getData();
+        $data = \Flight::request()->data->getData();
         $user = current_user();
         $data['user_id'] = $user->can('manage users') ? ($data['user_id'] ?? '') : $user->id;
+
         $invalid = self::validate($data);
         if (empty($invalid)) {
             Grade::add([
                 'grade' => $data['grade'] ?? '',
                 'date' => $data['date'] ?? date('Y-m-d'),
                 'subject' => $data['subject'] ?? '',
-                'user_id' => $data['user_id'] ?? $user->id
+                'user_id' => $data['user_id'] ?? $user->id,
+                'reward' => $data['reward'] ?? 0,
             ]);
             \Flight::redirect('/grades?success');
         } else {
@@ -87,24 +64,39 @@ class GradeController extends Controller {
      * @permission edit grades
      */
     public static function edit($id) {
-        $grade = \Flight::request()->data['grade'] ?? '';
-        $date = \Flight::request()->data['date'] ?? date('Y-m-d');
-        $subject = \Flight::request()->data['subject'] ?? '';
+        $data = \Flight::request()->data->getData();
         $user = current_user();
-        $user_id = $user->can('manage users') ? (\Flight::request()->data['user_id'] ?? '') : $user->id;
+        $data['user_id'] = $user->can('manage users') ? ($data['user_id'] ?? '') : $user->id;
 
-        if ($grade && $subject && $user_id) {
+        // Use reward from form, or default from config if not set
+        if (!isset($data['reward']) || $data['reward'] === '') {
+            $gradeValue = floatval($data['grade'] ?? 0);
+            $rewards = config('app.grade_rewards') ?? [];
+            $reward = 0;
+            foreach ($rewards as $minGrade => $amount) {
+                if ($gradeValue >= $minGrade) {
+                    $reward = $amount;
+                    break;
+                }
+            }
+            $data['reward'] = $reward;
+        }
+
+        $invalid = self::validate($data);
+        if (empty($invalid)) {
             Grade::update($id, [
-                'grade' => $grade,
-                'date' => $date,
-                'subject' => $subject,
-                'user_id' => $user_id
+                'grade' => $data['grade'] ?? '',
+                'date' => $data['date'] ?? date('Y-m-d'),
+                'subject' => $data['subject'] ?? '',
+                'user_id' => $data['user_id'] ?? $user->id,
+                'reward' => $data['reward'] ?? 0,
             ]);
             \Flight::redirect('/grade/' . $id . '?success');
         } else {
             self::render('grade.edit', [
-                'grade' => Grade::fill(\Flight::request()->data->getData()),
-                'error' => 'Grade and Subject are required.'
+                'grade' => Grade::fill($data),
+                'error' => 'Grade and Subject are required.',
+                'fields' => $invalid,
             ]);
         }
     }
@@ -126,5 +118,34 @@ class GradeController extends Controller {
             \Flight::redirect('/grades');
         }
         self::render('grade.detail', ['grade' => $grade]);
+    }
+
+    /**
+     * Validate the data for creating or editing a grade.
+     *
+     * @param array $data
+     * @return array List of invalid fields, empty if all are valid
+     */
+    protected static function validate($data) {
+
+        // Validate required fields
+        $requiredFields = ['grade', 'subject', 'user_id'];
+        $invalid = array_diff($requiredFields, array_keys($data));
+
+        // Abort early if required fields are missing
+        if (!empty($invalid)) {
+            return $invalid;
+        }
+
+        // Check if date is valid
+        if ($data['date'] && !\DateTime::createFromFormat('Y-m-d', $data['date'])) {
+            $invalid[] = 'date';
+        }
+
+        // Check if user_id is valid
+        if (isset($data['user_id']) && !User::get($data['user_id'])) {
+            $invalid[] = 'user_id';
+        }
+        return $invalid;
     }
 }

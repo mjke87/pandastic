@@ -11,6 +11,7 @@ class Grade extends Model {
         'date',
         'subject',
         'user_id',
+        'reward', // added
     ];
 
     /**
@@ -26,17 +27,20 @@ class Grade extends Model {
     }
 
     /**
-     * Get the grade reward as a float.
+     * Get the grade reward as a float (stored value or default from config).
      *
      * @return float
      */
     public function reward() {
-        if (isset($this->grade)) {
-            $rewards = config('app.grade_rewards', []);
-            foreach ($rewards as $grade => $reward) {
-                if ($this->grade >= $grade) {
-                    return floatval($reward);
-                }
+        if (isset($this->reward) && $this->reward !== '') {
+            return floatval($this->reward);
+        }
+        // Default: get from config based on grade value
+        $gradeValue = isset($this->grade) ? floatval($this->grade) : 0;
+        $rewards = config('app.grade_rewards') ?? [];
+        foreach ($rewards as $minGrade => $amount) {
+            if ($gradeValue >= $minGrade) {
+                return $amount;
             }
         }
         return 0;

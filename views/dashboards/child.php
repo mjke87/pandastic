@@ -31,12 +31,6 @@
             <?php foreach ($grades as $grade): ?>
                 <?php render_view('grade.card', ['grade' => $grade]); ?>
             <?php endforeach; ?>
-            <?php foreach ($grades as $grade): ?>
-                <?php render_view('grade.card', ['grade' => $grade]); ?>
-            <?php endforeach; ?>
-            <?php foreach ($grades as $grade): ?>
-                <?php render_view('grade.card', ['grade' => $grade]); ?>
-            <?php endforeach; ?>
         <?php endif; ?>
     </div>
 </article>

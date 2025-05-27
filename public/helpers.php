@@ -142,14 +142,23 @@ function is_route($route, $fuzzy = false) {
 }
 
 /**
- * Generate an icon HTML element.
- * This function creates an <img> tag for an icon image.
- * The image should be located in the public/img directory.
+ * Generate an icon HTML element or inline SVG.
+ * If $inline is true, attempts to inline the SVG file contents.
+ * Otherwise, creates an <img> tag for the icon image.
+ * The image should be located in the public/icons directory.
  *
  * @param string $name The name of the icon file (without extension)
- * @param string $type The file type of the icon (default 'svg')
- * @return string HTML <img> tag
+ * @param bool $inline Whether to inline the SVG (default false)
+ * @return string HTML <img> tag or inline SVG
  */
-function icon($name) {
-    return '<img src="' . asset_url("icons/$name.svg") . '" alt="' . htmlspecialchars(ucfirst($name) . ' Logo') . '" class="icon">';
+function icon($name, $inline = true) {
+    $path = "icons/$name.svg";
+    $fullPath = config('app.public_dir') . "/$path";
+    if (!file_exists($fullPath)) {
+        return '';
+    }
+    if ($inline) {
+        return preg_replace('/<svg\b([^>]*)>/', '<svg$1 class="icon">', file_get_contents($fullPath), 1);
+    }
+    return '<img src="' . asset_url($path) . '" alt="' . htmlspecialchars(ucfirst($name) . ' Logo') . '" class="icon">';
 }

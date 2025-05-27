@@ -76,20 +76,10 @@ class User extends Model {
      * @return float
      */
     public function totalFundsEarned() {
-        $rewards = config('app.grade_rewards') ?? [];
-        $multiplier = floatval($this->multiplier ?? 1);
         $grades = $this->grades();
         $total = 0;
         foreach ($grades as $grade) {
-            $g = floatval($grade->grade);
-            $reward = 0;
-            foreach ($rewards as $minGrade => $amount) {
-                if ($g >= $minGrade) {
-                    $reward = $amount;
-                    break;
-                }
-            }
-            $total += $reward * $multiplier;
+            $total += floatval($grade->reward());
         }
         return $total;
     }

@@ -51,8 +51,12 @@ nav li a:is([aria-current]:not([aria-current=false])) {
 }
 
 .icon {
-    height: 1.5em;
+    height: 1.25em;
     vertical-align: middle;
+}
+
+button .icon {
+    color: #fff;
 }
 
 a[role="delete"],
@@ -63,22 +67,4 @@ a[role="delete"]:active {
     --pico-underline: var(--pico-del-color);
     --pico-text-decoration: underline;
 
-}
-
-/* Add icons */
-[class^="icon-"]:before,
-[class*=" icon-"]:before {
-    content: "";
-    display: inline-block;
-    width: 1em;
-    height: 1em;
-    vertical-align: middle;
-    margin-right: 0.25em;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center center;
-}
-
-.icon-edit:before {
-    background-image: url(/public/img/icons/edit.svg);
 }

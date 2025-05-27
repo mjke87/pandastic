@@ -31,7 +31,7 @@
             <ul>
                 <?php if (user_can('edit grades')): ?>
                     <li>
-                        <a href="/grade/edit/<?= htmlspecialchars($grade->id) ?>"><button><?= icon('edit') ?> Edit</button></a>
+                        <a href="/grade/edit/<?= htmlspecialchars($grade->id) ?>"><button><?= icon('add') ?> Edit</button></a>
                     </li>
                 <?php endif; ?>
             </ul>

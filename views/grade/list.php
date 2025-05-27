@@ -6,7 +6,7 @@
     </ul>
     <ul>
         <?php if (user_can('create grades')): ?>
-            <li><a href="/grade/create" role="button">Add Grade</a></li>
+            <li><a href="/grade/create" role="button"><?= icon('add') ?> Add Grade</a></li>
         <?php endif; ?>
     </ul>
 </nav>
