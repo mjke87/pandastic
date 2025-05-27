@@ -57,7 +57,7 @@
                                     <td><?= htmlspecialchars($child['user']->name ?? $child['user']->username) ?></td>
                                     <td><?= htmlspecialchars($grade->grade) ?></td>
                                     <td><?= htmlspecialchars($grade->subject) ?></td>
-                                    <td><?= htmlspecialchars($grade->date) ?></td>
+                                    <td><?= format_date($grade->date) ?></td>
                                 </tr>
                             <?php endforeach; ?>
                         <?php else: ?>

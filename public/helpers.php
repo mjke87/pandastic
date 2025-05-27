@@ -94,3 +94,18 @@ function user_can($cap) {
     }
     return $permission->has($cap);
 }
+
+/**
+ * Format a date string according to a given format.
+ *
+ * @param string $date Date string in 'Y-m-d' or 'Y-m-d H:i:s'
+ * @param string|null $format Optional format string, defaults to config date format
+ * @return string
+ */
+function format_date($date, $format = null) {
+    if (!$date) return '';
+    $dt = \DateTime::createFromFormat('Y-m-d', substr($date, 0, 10));
+    if (!$dt) return htmlspecialchars($date);
+    $format = $format ?: config('app.date_format') ?: 'd.m.Y';
+    return $dt->format($format);
+}

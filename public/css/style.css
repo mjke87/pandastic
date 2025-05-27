@@ -3,6 +3,18 @@ main {
     --pico-block-spacing-vertical: 2rem;
 }
 
+article > header > h1,
+article > header > h2,
+article > header > h3 {
+    margin-bottom: 0;
+}
+
+article > header > h1 + p,
+article > header > h2 + p,
+article > header > h3 + p {
+    margin-top: var(--pico-typography-spacing-vertical);
+}
+
 a, a.contrast, a.secondary, :where(a:not([role=button])):is([aria-current]:not([aria-current=false]), :hover, :active, :focus),
 [role=link]:is([aria-current]:not([aria-current=false]), :hover, :active, :focus) {
     --pico-text-decoration: none;

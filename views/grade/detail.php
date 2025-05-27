@@ -3,7 +3,7 @@
         <h2><?= $grade->user()->name ?>: <?= htmlspecialchars($grade->grade) ?></h2>
     </header>
     <p>Subject: <?= htmlspecialchars($grade->subject) ?></p>
-    <p>Date: <?= htmlspecialchars($grade->date) ?></p>
+    <p>Date: <?= format_date($grade->date) ?></p>
     <footer>
         <nav style="padding: 0 calc(var(--pico-block-spacing-horizontal)/2);">
             <ul>

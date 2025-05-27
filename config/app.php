@@ -18,6 +18,8 @@ return [
         5 => 2,
     ],
 
+    'date_format' => 'd.m.Y',
+
     'storage' => 'file', // or 'database'
 
     //'roles' => [

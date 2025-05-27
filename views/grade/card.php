@@ -14,7 +14,7 @@
             in
             <strong><?= htmlspecialchars($grade->subject) ?></strong>
             on
-            <?= htmlspecialchars($grade->date) ?></p>
+            <?= format_date($grade->date) ?></p>
         </div>
     </a>
 </article>
