@@ -59,6 +59,10 @@ Flight::before('start', function(&$params, &$output){
         return $role !== \App\Models\Role::Guest->value;
     });
 
+    $permission->defineRule('modify grades', function($role) {
+        return false;
+    });
+
     Flight::set('permission', $permission);
 });
 

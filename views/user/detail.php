@@ -1,10 +1,7 @@
-<nav aria-label="breadcrumb">
-    <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/users">Users</a></li>
-        <li><?= htmlspecialchars($user->username ?? '') ?></li>
-    </ul>
-</nav>
+<?= render_view('nav.breadcrumb', [
+    'resource' => 'user',
+    'title' => htmlspecialchars($user->username ?? ''),
+]) ?>
 
 <article>
     <header>
@@ -20,14 +17,14 @@
                 <ul>
                     <?php if (user_can('edit users')): ?>
                     <li>
-                        <a href="/user/edit/<?= htmlspecialchars($user->id) ?>"><button>Edit</button></a>
+                        <a href="<?= url('user.edit', $user) ?>"><button>Edit</button></a>
                     </li>
                     <?php endif; ?>
                 </ul>
                 <ul>
                     <?php if (user_can('delete users')): ?>
                     <li>
-                        <form method="post" action="/user/<?= htmlspecialchars($user->id) ?>" style="display:inline" class="delete-user-form">
+                        <form method="post" action="<?= url('user.destroy', $user) ?>" style="display:inline" class="delete-user-form">
                             <a href="#" onclick="event.preventDefault(); if(confirm('Delete user?')) this.closest('form').submit();" style="color: var(--pico-del-color)">Delete</a>
                             <input type="hidden" name="_method" value="DELETE">
                         </form>

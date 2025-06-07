@@ -17,6 +17,10 @@ article > header > h3 + p {
     margin-top: var(--pico-typography-spacing-vertical);
 }
 
+article > p:last-child {
+    margin-bottom: 0;
+}
+
 /* Change box shadow of nexted cards */
 article article {
     --pico-card-box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;

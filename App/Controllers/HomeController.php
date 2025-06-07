@@ -10,30 +10,30 @@ class HomeController extends Controller {
     /**
      * @permission loggedIn
      */
-    public static function index() {
+    public function index() {
         $user = current_user();
         if ($user->isRole(Role::Parent)) {
-            self::parentDashboard($user);
+            $this->parentDashboard($user);
         } else {
-            self::childDashboard($user);
+            $this->childDashboard($user);
         }
     }
 
     /**
      * Show dashboard for child users.
      */
-    public static function childDashboard($user) {
-        $data = self::prepareChild($user);
-        self::render("dashboards.child", $data);
+    public function childDashboard($user) {
+        $data = $this->prepareChild($user);
+        $this->render("dashboards.child", $data);
     }
 
     /**
      * Show dashboard for parent users.
      */
-    public static function parentDashboard($user) {
+    public function parentDashboard($user) {
         $children = User::withRole(Role::Child);
-        $data = array_map([self::class, 'prepareChild'], $children);
-        self::render("dashboards.parent", [
+        $data = array_map([$this, 'prepareChild'], $children);
+        $this->render("dashboards.parent", [
             'user' => $user,
             'children' => $data
         ]);
@@ -45,7 +45,7 @@ class HomeController extends Controller {
      * @param User $user
      * @return array
      */
-    private static function prepareChild($user) {
+    private function prepareChild($user) {
         $goal = floatval($user->goal ?? 100);
         $goal_name = $user->goal_name ?? '';
         $funds = $user->totalFundsEarned();
@@ -64,7 +64,7 @@ class HomeController extends Controller {
     /**
      * Handle dashboard goal update.
      */
-    public static function setGoal() {
+    public function setGoal() {
         $request = \Flight::request();
         $data = $request->data->getData();
         $user = current_user();
@@ -72,6 +72,6 @@ class HomeController extends Controller {
             'goal' => floatval($data['goal'] ?? 100),
             'goal_name' => $data['goal_name'] ?? ''
         ]);
-        \Flight::redirect('/?success');
+        $this->redirect('/?success');
     }
 }

@@ -10,7 +10,7 @@
             <?php endforeach; ?>
         </ul>
     <?php endif; ?>
-    <form method="post" action="<?= !$grade->exists() ? '/grade' : '/grade/' . htmlspecialchars($grade->id ?? '') ?>">
+    <form method="post" action="<?= !$grade->exists() ? url('grade.store') : url('grade.update', $grade) ?>">
         <div>
             <label for="grade">Grade</label>
             <input type="text" id="grade" name="grade" required value="<?= htmlspecialchars($grade->grade ?? '') ?>">
@@ -43,10 +43,10 @@
         </div>
         <button type="submit" class="primary"><?= !$grade->exists() ? 'Create' : 'Save' ?></button>
         <?php if ($grade->exists()): ?>
-            <a href="/grade/<?= htmlspecialchars($grade->id) ?>" class="secondary">Cancel</a>
+            <a href="<?= url('grade.show', $grade) ?>" class="secondary">Cancel</a>
             <input type="hidden" name="_method" value="PUT">
         <?php else: ?>
-            <a href="/grades" class="secondary">Cancel</a>
+            <a href="<?= url('grade.index') ?>" class="secondary">Cancel</a>
         <?php endif; ?>
     </form>
 </article>

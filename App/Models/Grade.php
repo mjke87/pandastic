@@ -4,8 +4,6 @@ namespace App\Models;
 
 class Grade extends Model {
 
-    protected $fileStorage = \App\Storage\File\Grade::class;
-    protected $databaseStorage = \App\Storage\Database\Grade::class;
     protected $fillable = [
         'grade',
         'date',

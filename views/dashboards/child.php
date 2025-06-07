@@ -39,7 +39,7 @@
     <header>
         <h3>Your Funding Goal</h3>
     </header>
-    <form method="post" action="/set-goal" style="margin-top:1em;">
+    <form method="post" action="<?= url('set.goal') ?>" style="margin-top:1em;">
         <label for="goal">Set your funding goal:</label>
         <input type="number" name="goal" id="goal" min="1" step="0.01" value="<?= htmlspecialchars($goal) ?>">
         <label for="goal_name">Goal name (e.g. "New Phone"):</label>

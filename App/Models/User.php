@@ -6,8 +6,6 @@ use App\Models\Role;
 
 class User extends Model {
 
-    protected $fileStorage = \App\Storage\File\User::class;
-    protected $databaseStorage = \App\Storage\Database\User::class;
     protected $fillable = [
         'username',
         'name',

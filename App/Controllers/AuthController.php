@@ -4,13 +4,13 @@ namespace App\Controllers;
 
 use App\Models\User;
 
-class AuthController extends Controller
-{
-    public static function loginForm() {
-        self::render('auth.login', []);
+class AuthController extends Controller {
+
+    public function index() {
+        $this->render('auth.login', []);
     }
 
-    public static function login() {
+    public function login() {
         $username = $_POST['username'] ?? '';
         $password = $_POST['password'] ?? '';
         $error = null;
@@ -18,9 +18,9 @@ class AuthController extends Controller
             $users = User::all();
             foreach ($users as $user) {
                 if ($user->username === $username && password_verify($password, $user->password)) {
-                    \Flight::session()->set('user_id', $user->id);
-                    \Flight::session()->set('username', $user->username);
-                    \Flight::redirect('/');
+                    $this->session()->set('user_id', $user->id);
+                    $this->session()->set('username', $user->username);
+                    $this->redirect('/');
                     return;
                 }
             }
@@ -28,12 +28,12 @@ class AuthController extends Controller
         } else {
             $error = 'Username and password are required.';
         }
-        self::render('auth.login', ['message' => $error]);
+        $this->render('auth.login', ['message' => $error]);
     }
 
-    public static function logout() {
-        $session = \Flight::session();
+    public function logout() {
+        $session = $this->session();
         $session->destroy($session->id());
-        self::render('auth.logout', []);
+        $this->render('auth.logout', []);
     }
 }

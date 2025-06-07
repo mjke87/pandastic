@@ -5,7 +5,7 @@
     <?php if (!empty($message)): ?>
         <div><?= htmlspecialchars($message) ?></div>
     <?php endif; ?>
-    <form method="post" action="<?= !$user->exists() ? '/user' : '/user/' . htmlspecialchars($user->id ?? '') ?>">
+    <form method="post" action="<?= !$user->exists() ? url('user.store') : url('user.update', $user) ?>">
         <div>
             <label for="username">Username</label>
             <input type="text" id="username" name="username" value="<?= htmlspecialchars($user->username ?? '') ?>" required>
@@ -35,7 +35,7 @@
             <input type="text" id="goal_name" name="goal_name" value="<?= htmlspecialchars($user->goal_name ?? '') ?>">
         </div>
         <button type="submit" class="primary">Save</button>
-        <a href="/users" class="secondary">Cancel</a>
+        <a href="<?= url('user.index') ?>" class="secondary">Cancel</a>
         <?php if ($user->exists()): ?>
             <input type="hidden" name="_method" value="PUT">
         <?php endif; ?>

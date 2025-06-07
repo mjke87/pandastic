@@ -5,7 +5,7 @@
     <?php if (!empty($message)): ?>
         <div><?= htmlspecialchars($message) ?></div>
     <?php endif; ?>
-    <form method="post" action="/login">
+    <form method="post" action="<?= url('authenticate') ?>">
         <div>
             <label for="username">Username</label>
             <input type="text" id="username" name="username" required>

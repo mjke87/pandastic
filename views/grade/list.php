@@ -6,12 +6,12 @@
     </ul>
     <ul>
         <?php if (user_can('create grades')): ?>
-            <li><a href="/grade/create" role="button"><?= icon('add') ?> Add Grade</a></li>
+            <li><a href="<?= url('grade.create') ?>" role="button"><?= icon('add') ?> Add Grade</a></li>
         <?php endif; ?>
     </ul>
 </nav>
 <?php
-foreach ($grades as $grade) {
+foreach ($items as $grade) {
     render_view('grade.card', [
         'grade' => $grade,
     ]);

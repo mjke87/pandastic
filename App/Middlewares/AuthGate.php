@@ -25,8 +25,9 @@ class AuthGate {
                 $cap = $m[1];
                 if (!$permission->has($cap)) {
                     render_layout('error', [
-                        'title' => 'Permission Denied',
-                        'message' => sprintf('You are not allowed to %s.', $cap)]);
+                        'title' => __('Permission Denied'),
+                        'message' => __('You are not allowed to :permission.', ['permission' => __($cap)]),
+                    ]);
                     exit;
                 }
             }

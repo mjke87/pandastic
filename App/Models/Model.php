@@ -118,11 +118,30 @@ abstract class Model {
         if ($this->storage) {
             return $this->storage;
         }
+        if (empty($this->fileStorage) || empty($this->databaseStorage)) {
+            $this->defaultStorage();
+        }
         $this->storage = match (config('app.storage')) {
             'database' => new $this->databaseStorage,
             default => $this->fileStorage::data(),
         };
         return $this->storage;
+    }
+
+    /**
+     * Assume the storage classes based on the model class name.
+     * By default, it will use the model class name to infer the storage classes.
+     *
+     * @return void
+     */
+    protected function defaultStorage() {
+        $class = substr(strrchr(static::class, '\\'), 1);
+        if (empty($this->fileStorage)) {
+            $this->fileStorage = "\\App\\Storage\\File\\" . $class;
+        }
+        if (empty($this->databaseStorage)) {
+            $this->databaseStorage = "\\App\\Storage\\Database\\" . $class;
+        }
     }
 
     /**

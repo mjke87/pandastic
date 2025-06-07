@@ -1,11 +1,3 @@
-<nav aria-label="breadcrumb">
-    <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/grades">Grades</a></li>
-        <li><?= htmlspecialchars($grade->grade ?? '') ?></li>
-    </ul>
-</nav>
-
 <article>
     <header>
         <h2><?= $grade->subject ?>: <?= htmlspecialchars($grade->grade) ?></h2>
@@ -26,26 +18,26 @@
         <?= icon('panda') ?>
     </p>
     <?php if (user_can('edit grades') || user_can('delete grades')): ?>
-    <footer>
-        <nav style="padding: 0 calc(var(--pico-block-spacing-horizontal)/2);">
-            <ul>
-                <?php if (user_can('edit grades')): ?>
-                    <li>
-                        <a href="/grade/edit/<?= htmlspecialchars($grade->id) ?>"><button><?= icon('add') ?> Edit</button></a>
-                    </li>
-                <?php endif; ?>
-            </ul>
-            <ul>
-                <?php if (user_can('delete grades')): ?>
-                    <li>
-                        <form method="post" action="/grade/<?= htmlspecialchars($grade->id) ?>">
-                            <a href="#" onclick="event.preventDefault(); if(confirm('Delete this grade?')) this.closest('form').submit();" role="delete">Delete</a>
-                            <input type="hidden" name="_method" value="DELETE">
-                        </form>
-                    </li>
-                <?php endif; ?>
-            </ul>
-        </nav>
-    </footer>
+        <footer>
+            <nav style="padding: 0 calc(var(--pico-block-spacing-horizontal)/2);">
+                <ul>
+                    <?php if (user_can('edit grades')): ?>
+                        <li>
+                            <a href="<?= url('grade.edit', $grade) ?>"><button><?= icon('add') ?> Edit</button></a>
+                        </li>
+                    <?php endif; ?>
+                </ul>
+                <ul>
+                    <?php if (user_can('delete grades')): ?>
+                        <li>
+                            <form method="post" action="<?= url('grade.destroy', $grade) ?>">
+                                <a href="#" onclick="event.preventDefault(); if(confirm('Delete this grade?')) this.closest('form').submit();" role="delete">Delete</a>
+                                <input type="hidden" name="_method" value="DELETE">
+                            </form>
+                        </li>
+                    <?php endif; ?>
+                </ul>
+            </nav>
+        </footer>
     <?php endif; ?>
 </article>

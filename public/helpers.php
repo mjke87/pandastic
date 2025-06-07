@@ -57,11 +57,13 @@ function render_view($view, $params = [], $key = null) {
  * @return void
  */
 function render_layout($view, $params = [], $layout = 'layout') {
+    // Pass Flight variables to the view
+    \Flight::get('user', current_user());
     render_view($view, $params, 'content');
     render_view($layout, [
         'title' => config('app.app_name'),
         'css_framework' => [
-            'https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.cyan.min.css',
+            'https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.green.min.css',
             asset_url('css/style.css'),
         ],
         'js_framework' => [
@@ -142,6 +144,23 @@ function is_route($route, $fuzzy = false) {
 }
 
 /**
+ * Get the URL for a named route.
+ * This function uses Flight's getUrl method to generate a URL
+ * based on the route name and optional parameters.
+ * You may pass a model instance as $params, in which case ['id' => $model->id] will be used.
+ *
+ * @param string $name The name of the route
+ * @param array|object $params Optional parameters or model instance
+ * @return string The generated URL
+ */
+function url($name, $params = []) {
+    if (is_object($params) && isset($params->id)) {
+        $params = ['id' => $params->id];
+    }
+    return Flight::getUrl($name, $params);
+}
+
+/**
  * Generate an icon HTML element or inline SVG.
  * If $inline is true, attempts to inline the SVG file contents.
  * Otherwise, creates an <img> tag for the icon image.
@@ -161,4 +180,41 @@ function icon($name, $inline = true) {
         return preg_replace('/<svg\b([^>]*)>/', '<svg$1 class="icon">', file_get_contents($fullPath), 1);
     }
     return '<img src="' . asset_url($path) . '" alt="' . htmlspecialchars(ucfirst($name) . ' Logo') . '" class="icon">';
+}
+
+/**
+ * Pluralize a word (basic English rules).
+ *
+ * @param string $word
+ * @return string
+ */
+function pluralize($word) {
+    // Words ending in s, x, z, ch, sh: add "es"
+    if (preg_match('/(s|x|z|ch|sh)$/i', $word)) {
+        return $word . 'es';
+    }
+    // Words ending in y preceded by a consonant: replace y with ies
+    if (preg_match('/[^aeiou]y$/i', $word)) {
+        return substr($word, 0, -1) . 'ies';
+    }
+    // Default: just add "s"
+    return $word . 's';
+}
+
+/**
+ * Translate a string (stub).
+ *
+ * @param string $text The text to translate
+ * @param array $params Optional parameters for replacement
+ * @return string The translated text with parameters replaced
+ */
+function __($text, $params = []) {
+    // Simple replacement, no actual translation backend
+    if (!empty($params)) {
+        error_log(print_r($params, true));
+        foreach ($params as $key => $value) {
+            $text = str_replace(':' . $key, $value, $text);
+        }
+    }
+    return $text;
 }

@@ -1,15 +1,19 @@
 <?php
-$items = [
-    'grades' => 'Grades',
-    'users' => 'Users',
+$resources = [
+    'grade' => 'Grades',
+    'wish' => 'Wishes',
+    'chore' => 'Chores',
+    'reward' => 'Rewards',
+    'transaction' => 'Bambux',
+    'user' => 'Users',
 ];
 ?>
 <ul>
-    <?php foreach ($items as $key => $name): ?>
-        <?php if (user_can("manage $key")): ?>
+    <?php foreach ($resources as $resource => $name): ?>
+        <?php if (user_can('manage ' . pluralize($resource))): ?>
             <li>
-                <a href="/<?= htmlspecialchars($key) ?>"
-                   <?php if (is_route('/' . rtrim($key, 's'), true)): ?>aria-current="true"<?php endif; ?>>
+                <?php $url = url("$resource.index"); ?>
+                <a href="<?= $url ?>" <?php if (is_route($url, true)): ?>aria-current="true"<?php endif; ?>>
                    <?= htmlspecialchars($name) ?>
                 </a>
             </li>
