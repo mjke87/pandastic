@@ -4,7 +4,7 @@
 
 # Pandastic
 
-A simple school grade tracker and reward system for families.
+A simple family management application to let your kids know they are doing pandasticly.
 
 ## Features
 
@@ -45,18 +45,31 @@ A simple school grade tracker and reward system for families.
 5. **(Optional) Configure app settings:**
    - Edit `config/app.php` for app name, currency, and storage options.
 
-## Usage
-
-- Visit the app in your browser.
-- Login or create users.
-- Add grades and see rewards calculated automatically.
-
 ## Development
 
-- All templates are in `/templates`
+### Local Development
+
+To develop Pandastic locally:
+
+1. Make sure you have PHP 8.0+ and Composer installed.
+2. Install dependencies with `composer install` if you haven't already.
+3. Start a local development server from the project root:
+   ```sh
+   php -S localhost:8000 -t public
+   ```
+   This will serve the app at http://localhost:8000
+4. You can now edit code and templates. Refresh your browser to see changes.
+
+**Key files and folders:**
+- All templates are in `/views`
 - Main entry point: `index.php`
 - Routing: `public/routes.php`
 - Configuration: `config/app.php`
+- Controllers: `App/Controllers/`
+- Models: `App/Models/`
+
+**Note:**
+If you change the data structure or config, you may need to clear or update files in the `data/` directory.
 
 ## License
 
