@@ -11,20 +11,23 @@ article > header > h3 {
     margin-bottom: 0;
 }
 
+/* Add spacing between headings and following paragraphs */
 article > header > h1 + p,
 article > header > h2 + p,
 article > header > h3 + p {
     margin-top: var(--pico-typography-spacing-vertical);
 }
 
+/* Avoid margin on standalone paragraphs within card headers */
 article > p:last-child {
     margin-bottom: 0;
 }
 
-/* Change box shadow of nexted cards */
+/* Change box shadow of nested cards */
 article article {
     --pico-card-box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
 }
+
 /* Hightlight active links in the navigation */
 nav li a:is([aria-current]:not([aria-current=false])) {
     text-decoration: var(--pico-text-decoration);
@@ -49,20 +52,24 @@ nav li a:is([aria-current]:not([aria-current=false])) {
     }
 }
 
+/* Adjust grid article spacing */
 .grid article {
     --pico-block-spacing-vertical: var(--pico-spacing);
     margin-bottom: 0; /* Handles by grid gap */
 }
 
+/* Set custom icon size */
 .icon {
     height: 1.25em;
     vertical-align: middle;
 }
 
+/* Set icon color for buttons */
 button .icon {
     color: #fff;
 }
 
+/* Override Pico CSS variables for delete links */
 a[role="delete"],
 a[role="delete"]:hover,
 a[role="delete"]:focus,
@@ -71,4 +78,9 @@ a[role="delete"]:active {
     --pico-underline: var(--pico-del-color);
     --pico-text-decoration: underline;
 
+}
+
+/* Reduce padding on article footer nav */
+article > footer > nav {
+    padding: 0 calc(var(--pico-block-spacing-horizontal)/2);
 }

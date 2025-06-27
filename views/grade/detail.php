@@ -19,7 +19,7 @@
     </p>
     <?php if (user_can('edit grades') || user_can('delete grades')): ?>
         <footer>
-            <nav style="padding: 0 calc(var(--pico-block-spacing-horizontal)/2);">
+            <nav>
                 <ul>
                     <?php if (user_can('edit grades')): ?>
                         <li>
